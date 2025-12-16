@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/gitlearn07/qa-auto-engineer-javascript-project-87/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/gitlearn07/qa-auto-engineer-javascript-project-87/actions)",
-  "main": "src/index.js",
+  "main": "src/genDiff.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,7 +14,7 @@
   "license": "ISC",
   "type": "module",
   "bin": {
-    "gendiff": "bin/gendiff.js"
+    "gendiff": "bin/genDiff.js"
   },
   "bugs": {
     "url": "https://github.com/gitlearn07/qa-auto-engineer-javascript-project-87/issues"
