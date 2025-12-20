@@ -4,7 +4,10 @@
   "description": "[![Actions Status](https://github.com/gitlearn07/qa-auto-engineer-javascript-project-87/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/gitlearn07/qa-auto-engineer-javascript-project-87/actions)",
   "main": "src/genDiff.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --colors"
+  },
+  "jest": {
+    "coverageReporters": ["lcov", "text"]
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,14 @@
   },
   "homepage": "https://github.com/gitlearn07/qa-auto-engineer-javascript-project-87#readme",
   "dependencies": {
-    "commander": "^14.0.2"
+    "commander": "^14.0.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@stylistic/eslint-plugin": "^5.6.1",
+    "eslint": "^9.39.2",
+    "globals": "^16.5.0",
+    "jest": "^30.2.0"
   }
 }
