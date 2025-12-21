@@ -2,40 +2,78 @@ import path from 'node:path'
 import { cwd } from 'node:process'
 import fs from 'fs'
 import _ from 'lodash'
+import parser from './parsers'
 
 const getFilePath = filePath => path.resolve(cwd(), filePath)
+
 const readFile = filePath => fs.readFileSync(getFilePath(filePath), 'utf-8')
 
-export default (filepath1, filepath2) => {
-  const file1Json = JSON.parse(readFile(filepath1))
-  const file2Json = JSON.parse(readFile(filepath2))
+export default (filePath1, filePath2, format) => {
+  const fileExtension = path.extname(filePath1)
 
-  // const file1Extension = path.extname(filepath1)
-  // const file2Extension = path.extname(filepath2)
+  const obj1 = parser(readFile(filePath1), fileExtension)
+  const obj2 = parser(readFile(filePath2), fileExtension)
 
-  const keys = [...Object.keys(file1Json), ...Object.keys(file2Json)]
+  const keys = [...Object.keys(obj1), ...Object.keys(obj2)]
 
   const uniqueKeys = Array.from(new Set(keys))
 
   const uniqueSortedKeys = _.sortBy(uniqueKeys)
 
   let output = uniqueSortedKeys.map((key) => {
-    if (!Object.hasOwn(file1Json, key)) {
-      return `  + ${key}: ${file2Json[key]}`
+    if (!Object.hasOwn(obj1, key)) {
+      return {
+        key: key,
+        value: obj2[key],
+        operation: 'added',
+      }
     }
 
-    if (!Object.hasOwn(file2Json, key)) {
-      return `  - ${key}: ${file1Json[key]}`
+    if (!Object.hasOwn(obj2, key)) {
+      return {
+        key: key,
+        value: obj1[key],
+        operation: 'removed',
+      }
     }
 
-    if (file1Json[key] !== file2Json[key]) {
-      return `  - ${key}: ${file1Json[key]}\n  + ${key}: ${file2Json[key]}`
+    if (obj1[key] !== obj2[key]) {
+      return {
+        key: key,
+        oldValue: obj1[key],
+        newValue: obj2[key],
+        operation: 'changed',
+      }
     }
 
-    return `    ${key}: ${file1Json[key]}`
+    return {
+      key: key,
+      value: obj1[key],
+      operation: 'unchanged',
+    }
   })
 
-  output = ['{', ...output, '}'].join('\n')
+  output = formatOutput(output, format)
 
   return output
+}
+
+const formatOutput = (output, format) => {
+  if (format === 'stylish') {
+    output = output.map((entry) => {
+      if (entry.operation === 'added') {
+        return `  + ${entry.key}: ${entry.value}`
+      }
+      if (entry.operation === 'removed') {
+        return `  - ${entry.key}: ${entry.value}`
+      }
+      if (entry.operation === 'changed') {
+        return `  - ${entry.key}: ${entry.oldValue}\n  + ${entry.key}: ${entry.newValue}`
+      }
+      if (entry.operation === 'unchanged') {
+        return `    ${entry.key}: ${entry.value}`
+      }
+    })
+    return ['{', ...output, '}'].join('\n')
+  }
 }
