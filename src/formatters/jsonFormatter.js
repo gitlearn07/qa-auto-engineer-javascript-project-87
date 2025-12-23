@@ -1,1 +1,1 @@
-export default output => JSON.stringify(output)
+export default content => JSON.stringify(content)

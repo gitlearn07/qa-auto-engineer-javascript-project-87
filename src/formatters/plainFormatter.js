@@ -1,5 +1,5 @@
-export default (output) => {
-  output = output.map((entry) => {
+export default (content) => {
+  content = content.map((entry) => {
     if (entry.operation === 'added') {
       return `Property '${entry.key}' was added with value: ${entry.value}`
     }
@@ -14,5 +14,5 @@ export default (output) => {
     }
   })
 
-  return output.filter(e => e).join('\n')
+  return content.filter(e => e).join('\n')
 }

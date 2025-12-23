@@ -1,5 +1,5 @@
-export default (output) => {
-  output = output.map((entry) => {
+export default (content) => {
+  content = content.map((entry) => {
     if (entry.operation === 'added') {
       return `  + ${entry.key}: ${entry.value}`
     }
@@ -13,5 +13,5 @@ export default (output) => {
       return `    ${entry.key}: ${entry.value}`
     }
   })
-  return ['{', ...output, '}'].join('\n')
+  return ['{', ...content, '}'].join('\n')
 }
