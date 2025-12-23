@@ -2,7 +2,8 @@ import path from 'node:path'
 import { cwd } from 'node:process'
 import fs from 'fs'
 import _ from 'lodash'
-import parser from './parsers'
+import parser from './parsers.js'
+import formatter from './formatters/index.js'
 
 const getFilePath = filePath => path.resolve(cwd(), filePath)
 
@@ -52,28 +53,7 @@ export default (filePath1, filePath2, format) => {
       operation: 'unchanged',
     }
   })
-
-  output = formatOutput(output, format)
+  output = formatter(output, format)
 
   return output
-}
-
-const formatOutput = (output, format) => {
-  if (format === 'stylish') {
-    output = output.map((entry) => {
-      if (entry.operation === 'added') {
-        return `  + ${entry.key}: ${entry.value}`
-      }
-      if (entry.operation === 'removed') {
-        return `  - ${entry.key}: ${entry.value}`
-      }
-      if (entry.operation === 'changed') {
-        return `  - ${entry.key}: ${entry.oldValue}\n  + ${entry.key}: ${entry.newValue}`
-      }
-      if (entry.operation === 'unchanged') {
-        return `    ${entry.key}: ${entry.value}`
-      }
-    })
-    return ['{', ...output, '}'].join('\n')
-  }
 }
