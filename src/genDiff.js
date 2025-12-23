@@ -10,10 +10,11 @@ const getFilePath = filePath => path.resolve(cwd(), filePath)
 const readFile = filePath => fs.readFileSync(getFilePath(filePath), 'utf-8')
 
 export default (filePath1, filePath2, format = 'stylish') => {
-  const fileExtension = path.extname(filePath1).slice(1)
+  const fileExtension1 = path.extname(filePath1).slice(1)
+  const fileExtension2 = path.extname(filePath2).slice(1)
 
-  const obj1 = parser(readFile(filePath1), fileExtension)
-  const obj2 = parser(readFile(filePath2), fileExtension)
+  const obj1 = parser(readFile(filePath1), fileExtension1)
+  const obj2 = parser(readFile(filePath2), fileExtension2)
 
   const keys = [...Object.keys(obj1), ...Object.keys(obj2)]
 

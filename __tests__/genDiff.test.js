@@ -70,3 +70,26 @@ describe('Comparing YML files', () => {
     expect(genDiff(fixturePath1, fixturePath2, 'json')).toEqual(expectedJSONResult)
   })
 })
+
+describe('Comparing JSON with YML files', () => {
+  test('genDiff JSON with YML shows Stylish difference correctly', () => {
+    const fixturePath1 = getFixturePath('file1.json')
+    const fixturePath2 = getFixturePath('file2.yml')
+
+    expect(genDiff(fixturePath1, fixturePath2, 'stylish')).toEqual(expectedStylishResult)
+  })
+
+  test('genDiff JSON with YML shows Plain difference correctly', () => {
+    const fixturePath1 = getFixturePath('file1.json')
+    const fixturePath2 = getFixturePath('file2.yml')
+
+    expect(genDiff(fixturePath1, fixturePath2, 'plain')).toEqual(expectedPlainResult)
+  })
+
+  test('genDiff JSON with YML shows JSON difference correctly', () => {
+    const fixturePath1 = getFixturePath('file1.json')
+    const fixturePath2 = getFixturePath('file2.yml')
+
+    expect(genDiff(fixturePath1, fixturePath2, 'json')).toEqual(expectedJSONResult)
+  })
+})
