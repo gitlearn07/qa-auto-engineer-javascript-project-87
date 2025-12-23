@@ -1,6 +1,6 @@
 import genDiff from '../src/genDiff.js'
 import path from 'node:path'
-import { expect, test } from '@jest/globals'
+import { expect, test, describe } from '@jest/globals'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 
@@ -25,44 +25,48 @@ Property 'verbose' was added with value: true`
 
 const expectedJSONResult = `[{"key":"follow","value":false,"operation":"removed"},{"key":"host","value":"hexlet.io","operation":"unchanged"},{"key":"proxy","value":"123.234.53.22","operation":"removed"},{"key":"timeout","oldValue":50,"newValue":20,"operation":"changed"},{"key":"verbose","value":true,"operation":"added"}]`
 
-test('genDiff JSON shows Stylish difference correctly', () => {
-  const file1 = getFixturePath('file1.json')
-  const file2 = getFixturePath('file2.json')
+describe('Comparing JSON files', () => {
+  test('genDiff JSON shows Stylish difference correctly', () => {
+    const file1 = getFixturePath('file1.json')
+    const file2 = getFixturePath('file2.json')
 
-  expect(genDiff(file1, file2, 'stylish')).toEqual(expectedStylishResult)
+    expect(genDiff(file1, file2, 'stylish')).toEqual(expectedStylishResult)
+  })
+
+  test('genDiff JSON shows Plain difference correctly', () => {
+    const file1 = getFixturePath('file1.json')
+    const file2 = getFixturePath('file2.json')
+
+    expect(genDiff(file1, file2, 'plain')).toEqual(expectedPlainResult)
+  })
+
+  test('genDiff JSON shows JSON difference correctly', () => {
+    const file1 = getFixturePath('file1.json')
+    const file2 = getFixturePath('file2.json')
+
+    expect(genDiff(file1, file2, 'json')).toEqual(expectedJSONResult)
+  })
 })
 
-test('genDiff YML shows Stylish difference correctly', () => {
-  const file1 = getFixturePath('file1.yml')
-  const file2 = getFixturePath('file2.yml')
+describe('Comparing YML files', () => {
+  test('genDiff YML shows Stylish difference correctly', () => {
+    const file1 = getFixturePath('file1.yml')
+    const file2 = getFixturePath('file2.yml')
 
-  expect(genDiff(file1, file2, 'stylish')).toEqual(expectedStylishResult)
-})
+    expect(genDiff(file1, file2, 'stylish')).toEqual(expectedStylishResult)
+  })
 
-test('genDiff JSON shows Plain difference correctly', () => {
-  const file1 = getFixturePath('file1.json')
-  const file2 = getFixturePath('file2.json')
+  test('genDiff YML shows Plain difference correctly', () => {
+    const file1 = getFixturePath('file1.yml')
+    const file2 = getFixturePath('file2.yml')
 
-  expect(genDiff(file1, file2, 'plain')).toEqual(expectedPlainResult)
-})
+    expect(genDiff(file1, file2, 'plain')).toEqual(expectedPlainResult)
+  })
 
-test('genDiff YML shows Plain difference correctly', () => {
-  const file1 = getFixturePath('file1.yml')
-  const file2 = getFixturePath('file2.yml')
+  test('genDiff YML shows JSON difference correctly', () => {
+    const file1 = getFixturePath('file1.yml')
+    const file2 = getFixturePath('file2.yml')
 
-  expect(genDiff(file1, file2, 'plain')).toEqual(expectedPlainResult)
-})
-
-test('genDiff JSON shows JSON difference correctly', () => {
-  const file1 = getFixturePath('file1.json')
-  const file2 = getFixturePath('file2.json')
-
-  expect(genDiff(file1, file2, 'json')).toEqual(expectedJSONResult)
-})
-
-test('genDiff YML shows JSON difference correctly', () => {
-  const file1 = getFixturePath('file1.yml')
-  const file2 = getFixturePath('file2.yml')
-
-  expect(genDiff(file1, file2, 'json')).toEqual(expectedJSONResult)
+    expect(genDiff(file1, file2, 'json')).toEqual(expectedJSONResult)
+  })
 })
