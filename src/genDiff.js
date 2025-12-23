@@ -9,7 +9,7 @@ const getFilePath = filePath => path.resolve(cwd(), filePath)
 
 const readFile = filePath => fs.readFileSync(getFilePath(filePath), 'utf-8')
 
-export default (filePath1, filePath2, format) => {
+export default (filePath1, filePath2, format = 'stylish') => {
   const fileExtension = path.extname(filePath1).slice(1)
 
   const obj1 = parser(readFile(filePath1), fileExtension)
